@@ -5,6 +5,7 @@ import { connect, useDispatch,useSelector} from 'react-redux'
 import { addConnection } from '../Store/connectionSlice'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 const Connections = () => {
 
 const dispatch=useDispatch()
@@ -15,7 +16,6 @@ let connectionData=useSelector((state)=>state?.connection)
 const feedConnections=async()=>{
 try{
 const userConnections=await axios.get(BASE_URL+'/user/connections',{withCredentials:true})
-console.log(userConnections?.data?.data)
 dispatch(addConnection(userConnections?.data?.data))
 }
 catch(err){
@@ -41,6 +41,10 @@ if(connectionData.length===0){
 return(
 <h1 className='mt-20 text-xl text-white'>No connections found!</h1>
 )
+}
+const handleChat=(e,_id)=>{
+e.stopPropagation()
+navigate(`/chat/${_id}`)
 }
   return (
     <div className='text-center py-20'>
@@ -80,14 +84,17 @@ return(
     const{_id,firstName,lastName,age,gender,photoUrl,about,createdAt}=item
     return(
      
-    <div key={_id} onClick={()=>navigate('/viewprofile',{state:item})} className='flex justify-bewtween items-center m-4 p-4 rounded-lg bg-slate-700 w-2/3 h-32 mx-auto'>
+    <div key={_id} onClick={()=>navigate('/viewprofile',{state:item})} className='flex justify-between items-center m-4 p-4 rounded-lg bg-slate-700 w-2/3 h-32 mx-auto'>
         <div>
         <img src={photoUrl} alt="shoes" className='w-20 h-20 rounded-full'/>
         </div>
-        <div className='text-left mx-4'>
+        <div className='text-left flex flex-col justify-between items-center mx-4'>
         <h2 className="font-bold text-xl text-white">{firstName + " " +lastName}</h2>
         {age && gender && <p className='text-slate-200'>{age + ','+ gender}</p>}
         {/* <p>{about}</p> */}
+    </div>
+    <div className='ml-10'>
+    <button onClick={(e)=>handleChat(e,item._id)} className="btn btn-primary">Chat</button>
     </div>
     </div>
     )

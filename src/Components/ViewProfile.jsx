@@ -22,7 +22,16 @@ const userDuration = useMemo(() => {
     const createdDateObj = new Date(createdAt)
     const currentDateObj = new Date()
     const diffInMs = currentDateObj - createdDateObj
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+    let diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+    if(diffInDays===0){
+    diffInDays= "Today"
+    }
+    else if(diffInDays===1){
+    diffInDays= "Yesterday"
+    }
+    else{
+    diffInDays= diffInDays+" "+"days ago"
+    }
     return diffInDays
   }
   return "N/A"
@@ -34,7 +43,7 @@ const userDuration = useMemo(() => {
         <div className='flex flex-col items-center gap-2'>
           <p className="text-white text-lg">👤 <strong>Gender:</strong> {gender}</p>
           <p className="text-white text-lg">🧠 <strong>Skills:</strong> {skills.join(', ')}</p>
-          <p className="text-white text-lg text-left text-wrap">📅  <strong>User since:</strong> {createdDate} ({userDuration} days ago)</p>
+          <p className="text-white text-lg text-left text-wrap">📅  <strong>User since:</strong> {createdDate} ({userDuration})</p>
         </div>
       </div>
 

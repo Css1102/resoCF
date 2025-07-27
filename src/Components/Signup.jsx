@@ -18,13 +18,20 @@ const Signup = () => {
   const handleSignup=async()=>{
   setError("")
   try{
+  if(email.length===0 || firstName.length===0 || lastName.length===0 || password.length===0){
+  throw new Error("All feilds are mandatory")
+  }
   const res=await axios.post(BASE_URL+'/signup',{firstName,lastName,email,password},{withCredentials:true})
   console.log(res.data)
   dispatch(addUser(res.data))
    return navigate('/profile')
   }
-  catch(err){
-  console.error(err.message)
+  catch(err) {
+  if (err.response && err.response.data) {
+    setError(err.response.data || "Signup failed: Please fill all required fields correctly.")
+  } else {
+    setError("Something went wrong. Please try again later.")
+  }
   }
   }
   return (

@@ -56,9 +56,11 @@ const saveProfile = async () => {
 
     // Show success message immediately
     setIsSaved(true)
-
     // Hide success message after 3 seconds
-    setTimeout(() => setIsSaved(false), 3000)
+    setTimeout(() =>{
+    setIsSaved(false)
+    navigate('/feed')
+    },3000)
   } catch (err) {
     console.error(err.message)
     setError(err.message)
@@ -69,7 +71,6 @@ const saveProfile = async () => {
     <div className="card  w-96 h-[500px] shadow-sm my-4 bg-base-300">
  {
   isSaved && error.length==0 && (<div className="toast toast-top toast-center">
- {console.log("inside saved")}
   <div className="alert alert-success mt-12">
     <span>Profile saved successfully.</span>
   </div>

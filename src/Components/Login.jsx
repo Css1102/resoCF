@@ -19,8 +19,8 @@ const Login = () => {
   email,
   password,
   },{withCredentials:true})
-  console.log(res.data)
-  dispatch(addUser(res.data))
+  localStorage.setItem("token",res.data?.token)
+  dispatch(addUser(res.data?.user))
   return navigate('/feed')
   }
   catch(err){

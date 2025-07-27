@@ -8,7 +8,6 @@ import { removeFromFeed } from '../Store/feedSlice';
 const UserCard = ({user}) => {
    const dispatch=useDispatch()
     const{_id,firstName,lastName,photoUrl,age,gender,aboutskills}=user;
-    console.log(_id)
     const handleSaveRequest=async(status,_id)=>{
     try{
     const res=await axios.post(BASE_URL+'/request/send/'+status+'/' +_id,{},
@@ -28,7 +27,7 @@ const UserCard = ({user}) => {
       alt="Shoes" />
   </figure>
   <div className="card-body ">
-    <h2 className="card-title">{firstName+" "+lastName}</h2>
+    <h2 className="card-title ml-10">{firstName+" "+lastName}</h2>
     {age && gender && <p>{age + ", "+gender}</p>}
      {/* <p>{about}</p> */}
     <div className="card-actions justify-center">
