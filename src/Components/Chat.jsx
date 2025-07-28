@@ -87,8 +87,8 @@ fetchStatus()
   }, [messages])
 
   const sendMessage = () => {
-    const socket = createSocketConnection()
-    socket.emit("sendMessage", {
+    if(socketRef.current){
+    socketRef.current.emit("sendMessage", {
       firstName: user?.firstName,
       lastName: user?.lastName,
       userId,
@@ -96,6 +96,7 @@ fetchStatus()
       newMessage
     })
     setNewMessage("")
+  }
   }
 
   return (
