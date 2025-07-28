@@ -77,7 +77,10 @@ fetchStatus()
     });
   }
  
-    return () => socketRef.current.disconnect()
+    return () => {
+      socketRef.current.off("messageReceived");
+  socketRef.current.off("userStatusChanged");
+    }
   }, [userId, toChatId])
 
   useEffect(() => {
