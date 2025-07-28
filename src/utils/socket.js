@@ -6,6 +6,7 @@ const socket=io(BASE_URL,{
 auth:{
 token:localStorage.getItem("token")
 },
+ transports: ["polling","websocket"],
 withCredentials:true
 })
 return socket
