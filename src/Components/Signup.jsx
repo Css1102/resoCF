@@ -27,42 +27,85 @@ const Signup = () => {
    return navigate('/profile')
   }
   catch(err) {
-  if (err.response && err.response.data) {
-    setError(err.response.data || "Signup failed: Please fill all required fields correctly.")
+    if (err.response && err.response.data) {
+    setError(err.response.data.message || "Something went wrong");
   } else {
-    setError("Something went wrong. Please try again later.")
+    setError(err.message || "Unexpected error");
   }
-  }
-  }
+  }}
   return (
-    <div className='flex justify-center items-start min-h-screen bg-slate-800 pt-20'>
-    <div className="card  w-96 shadow-sm my-4 bg-base-300">
-  <div className="card-body">
-    <h2 className="card-title ml-28 mb-4">Signup</h2>
-        <label className="input mb-2">
-  <input type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="grow ml-2" placeholder="firstName" />
-</label>
-    <label className="input mb-2">
-  <input type="text" value={lastName} onChange={(e)=>setLastName(e.target.value)} className="grow ml-2" placeholder="lastName" />
-</label>
+  <div className="flex justify-center items-center min-h-screen bg-slate-800 px-4">
+    <div className="bg-gray-800 border border-gray-700 w-full max-w-md rounded-xl shadow-xl text-white">
+      <div className="p-8">
+        <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
 
-    <label className="input mb-2">
-  <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} className="grow ml-2" placeholder="Email" />
-</label>
-<label className="input mb-2">
-  <input type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} className="grow ml-2" placeholder="password" />
-</label>
-    <div className="card-actions justify-end">
-    <p className="text-red-600">{error}</p>
-    <button className="btn btn-primary mr-24" onClick={handleSignup}>Signup</button>
-    </div>
-    <div className='flex justify-center items-center'>
-    <p className='text-sm font-medium'>New to this page?</p>
-    <Link to='/login'><p className="text-base font-bold cursor-pointer relative right-8">Login Here</p></Link>
+        {/* First Name */}
+        <label className="flex items-center bg-gray-700 rounded-md p-3 mb-4">
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
+            className="bg-transparent outline-none text-white flex-1"
+          />
+        </label>
+
+        {/* Last Name */}
+        <label className="flex items-center bg-gray-700 rounded-md p-3 mb-4">
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
+            className="bg-transparent outline-none text-white flex-1"
+          />
+        </label>
+
+        {/* Email */}
+        <label className="flex items-center bg-gray-700 rounded-md p-3 mb-4">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="bg-transparent outline-none text-white flex-1"
+          />
+        </label>
+
+        {/* Password */}
+        <label className="flex items-center bg-gray-700 rounded-md p-3 mb-4">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="bg-transparent outline-none text-white flex-1"
+          />
+        </label>
+
+        {/* Button + Error */}
+        <div className="mt-4">
+          {error && <p className="text-sm text-red-500 mb-2 text-center">{error}</p>}
+          <button
+            className="w-full bg-purple-600 hover:bg-purple-700 transition-all py-2 rounded-md font-semibold"
+            onClick={handleSignup}
+          >
+            Signup
+          </button>
+        </div>
+
+        {/* Link to Login */}
+        <div className="mt-6 text-center text-sm text-gray-400">
+          <span>Already have an account? </span>
+          <Link to="/login">
+            <span className="text-purple-400 font-semibold cursor-pointer hover:underline">
+              Login Here
+            </span>
+          </Link>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 )
 }
 export default Signup

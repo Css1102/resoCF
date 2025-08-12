@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState,useEffect } from 'react'
+import { useState,useEffect,useRef } from 'react'
 import UserCard from './UserCard'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
@@ -15,6 +15,7 @@ const[photoUrl,setPhotoUrl]=useState(user.photoUrl || " ")
 const[error,setError]=useState("")
 const[about,setAbout]=useState("")
 let[skills,setSkills]=useState("")
+const toastref=useRef(null)
 let[skillsArr,setSkillsArr]=useState([])
 const[isSaved,setIsSaved]=useState(false)
   const dispatch=useDispatch()
@@ -57,6 +58,7 @@ const saveProfile = async () => {
     // Show success message immediately
     setIsSaved(true)
     // Hide success message after 3 seconds
+  window.scrollTo({top:0,behavior:'smooth'})
     setTimeout(() =>{
     setIsSaved(false)
     navigate('/feed')
@@ -66,52 +68,112 @@ const saveProfile = async () => {
     setError(err.message)
   }
 }
-  return (
-    <div className='flex justify-evenly items-start min-h-screen pt-8 bg-slate-800'>
-    <div className="card  w-96 h-[500px] shadow-sm my-4 bg-base-300">
- {
-  isSaved && error.length==0 && (<div className="toast toast-top toast-center">
-  <div className="alert alert-success mt-12">
-    <span>Profile saved successfully.</span>
-  </div>
-</div>)}
-  <div className="card-body py-0 flex flex-col gap-2 items-start justify-center">
-    <h2 className="card-title ml-24">Edit Profile</h2>
-    <label className="input mb-2">
-  <input type="text" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="grow ml-2" placeholder="firstName" />
-</label>
-<label className="input mb-2">
-  <input type="text" value={lastName}  onChange={(e)=>setLastName(e.target.value)} className="grow ml-2" placeholder="lastName" />
-</label>
-    <label className="input mb-2">
-  <input type="text" value={age} onChange={(e)=>setAge(e.target.value)} className="grow ml-2" placeholder="age" />
-</label>
-    <label className="input mb-2">
-  <input type="text" value={gender} onChange={(e)=>setGender(e.target.value)} className="grow ml-2" placeholder="gender" />
-</label>
-    <label className="input mb-2">
-  <input type="text" value={photoUrl} onChange={(e)=>setPhotoUrl(e.target.value)} className="grow ml-2" placeholder="photoUrl" />
-</label>
-    <label className="input mb-2">
-  <input type="text" value={skills} onChange={(e)=>setSkills(e.target.value)} className="grow ml-2" placeholder="skills" />
-</label>
 
-    <label className="input mb-2">
-  <input type="text" value={about} onChange={(e)=>setAbout(e.target.value)} className="grow ml-2 text-left" placeholder="about" />
-</label>
+return (
+  <div className="flex justify-evenly items-start min-h-screen bg-slate-800 px-4 py-12 mt-10">
+    {/* Left: Edit Profile Form */}
+    <div className="bg-gray-800 border border-gray-700 w-full max-w-md rounded-xl shadow-xl text-white p-6">
+      {isSaved && error.length === 0 && (
+        <div className="mb-6" ref={toastref}>
+          <div className="bg-green-600 text-white px-4 py-2 rounded text-sm font-semibold text-center">
+            Profile saved successfully.
+          </div>
+        </div>
+      )}
 
-    <div className="card-actions justify-between">
-    <p className="text-red-500 ease-out">{error}</p>
-      <button className="btn btn-primary ml-16" onClick={saveProfile} >Save Profile</button>
+      <h2 className="text-2xl font-bold text-center mb-6">Edit Profile</h2>
+
+      {/* Input Fields */}
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="First Name"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          placeholder="Age"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          placeholder="Gender"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={photoUrl}
+          onChange={(e) => setPhotoUrl(e.target.value)}
+          placeholder="Photo URL"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+          placeholder="Skills"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      <label className="block mb-4">
+        <input
+          type="text"
+          value={about}
+          onChange={(e) => setAbout(e.target.value)}
+          placeholder="About"
+          className="w-full bg-gray-700 text-white p-3 rounded-md outline-none"
+        />
+      </label>
+
+      {/* Save Button + Error */}
+      <div className="mt-4">
+        {error && <p className="text-sm text-red-500 mb-2 text-center">{error}</p>}
+        <button
+          className="w-full bg-purple-600 hover:bg-purple-700 transition-all py-2 rounded-md font-semibold"
+          onClick={saveProfile}
+        >
+          Save Profile
+        </button>
+      </div>
+    </div>
+    <div className="w-[20%]">
+      <UserCard
+        user={{ firstName, lastName, photoUrl, age, gender, about }}
+        showActions={false}
+      />
     </div>
   </div>
-</div>
-<div>
-<UserCard user={{firstName,lastName,photoUrl,age,gender,about}}/>
-</div>
-</div>
+)
 
-  )
 }
 
 export default EditProfile

@@ -14,6 +14,7 @@ import Feed from './Components/Feed'
 import Connections from './Components/Connections'
 import Requests from './Components/Requests'
 import ViewProfile from './Components/ViewProfile'
+import Forgotpassword from './Components/Forgotpassword'
 import Chat from './Components/Chat'
 function App() {
 const Router=createBrowserRouter(
@@ -27,6 +28,7 @@ createRoutesFromElements(
   <Route path='/request' element={<Requests/>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/chat/:toChatId' element={<Chat/>}/>
+  <Route path='/forgotpassword' element={<Forgotpassword/>}/>
   </Route>
 )
 )

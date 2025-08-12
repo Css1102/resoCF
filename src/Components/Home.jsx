@@ -7,14 +7,13 @@ import { useNavigate,useLocation } from 'react-router-dom'
 import { useEffect,useRef,useState } from 'react'
 import axios from 'axios'
 import { useDispatch,useSelector } from 'react-redux'
-import {addUser} from '../Store/userSlice'
+import {addUser,removeUser} from '../Store/userSlice'
 import images from '../assets/images.jpg'
 import Carousel from './Carousel'
 const Home = () => {
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const location=useLocation()
-  const isAtHome=(location.pathname==='/')
   const[pageNum,setPageNum]=useState(1)
   const[loading,setLoading]=useState(false)
   const[lastElement,setLastElement]=useState(false)
@@ -29,6 +28,8 @@ const Home = () => {
     // );
 
   const user=useSelector((state)=>state?.user)
+    const isAtHome=(location.pathname==='/')
+    const showLandingContent = isAtHome && !user;
     const fetchUser = async () => {
     if (user){
     return;
@@ -40,8 +41,9 @@ const Home = () => {
       dispatch(addUser(res.data?.data));
       return navigate('/feed')
     } catch (err) {
-      if (err.status === 401) {
-        navigate("/login");
+      dispatch(addUser(null))
+      if (location.pathname !== "/") {
+        navigate("/");
       }
       console.error(err);
     }
@@ -69,7 +71,7 @@ const Home = () => {
   return (
   <div className='w-full min-h-screen bg-[url(../assets/images.jpg)] bg-fixed flex flex-col'>
     <Navbar/>
-    {isAtHome && (<div className="bg-gradient-to-b from-gray-900 to-slate-800 min-h-screen text-white flex flex-col items-center justify-evenly px-6 py-32">
+    {showLandingContent && (<div className="bg-gradient-to-b from-gray-900 to-slate-800 min-h-screen text-white flex flex-col items-center justify-evenly px-6 py-32">
   <h1 className="text-5xl font-extrabold text-center mb-4">
     Connect. Collaborate. Code.
   </h1>
@@ -102,9 +104,58 @@ const Home = () => {
 <div className='my-40'>
 <Carousel/>
 </div>
+  <h2 className="text-4xl text-white font-extrabold text-center mb-16 mt-20">💬 What Developers Are Saying</h2>
 
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    {/* Testimonial Card */}
+    {[
+      {
+        quote: `"Found my startup co-founder here. We've just secured our first round of funding!"`,
+        name: "Neha",
+        title: "Full-stack Dev",
+        color: "bg-purple-700",
+      },
+      {
+        quote: `"This platform feels like GitHub and LinkedIn had a genius child. It's intuitive and inspiring."`,
+        name: "Raghav",
+        title: "Backend Engineer",
+        color: "bg-indigo-600",
+      },
+      {
+        quote: `"The skill matcher is gold — paired me with a front-end wizard for my side project."`,
+        name: "Divya",
+        title: "React Enthusiast",
+        color: "bg-pink-200",
+      },
+      {
+        quote: `"I mentor junior devs and this helped me find mentees who actually match my stack."`,
+        name: "Amit",
+        title: "DevOps Lead",
+        color: "bg-teal-700",
+      },
+      {
+        quote: `"Loved how easy it was to showcase my GitHub. It helped me land freelance gigs."`,
+        name: "Sana",
+        title: "Freelancer",
+        color: "bg-pink-700",
+      },
+      {
+        quote: `"What a vibe. Great UX, cool people, and enough meme energy to keep me coming back."`,
+        name: "Kabir",
+        title: "UI/UX Designer",
+        color: "bg-yellow-600",
+      },
+    ].map(({ quote, name, title, color }, idx) => (
+      <div key={idx} className={`${color} bg-opacity-80 text-white p-6 rounded-xl shadow-lg hover:scale-105 transform transition duration-300`}>
+        <p className="italic mb-4">“{quote}”</p>
+        <div className="text-right">
+          <p className="font-semibold">{`— ${name}`}</p>
+          <p className="text-sm text-indigo-200">{title}</p>
+        </div>
+      </div>
+    ))}
+  </div>
 </div>
-
 )}
 <div className='w-full min-h-[calc(100vh_-_220px)]  bg-slate-800 pb-[100px] pt-[24px] flex-grow overflow-y-auto'>
   <Outlet/>

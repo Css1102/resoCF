@@ -13,6 +13,39 @@ const Chat = () => {
   const userId = user?._id
   const scrollRef = useRef(null)
   const socketRef=useRef(null)
+  const groupMsgByDate=(messages)=>{
+  const groupedMsg={}
+  messages.forEach((msg)=>{
+  const date=new Date()
+  console.log(date)  
+  const key=date.toDateString()
+  if(!groupedMsg[key]){
+  groupedMsg[key]=[]
+  }
+  groupedMsg[key].push(msg)
+  })
+  return groupedMsg
+  }
+
+  const formatDateLabel=(curr_date)=>{
+  const now_date=new Date()
+  const today_date=new Date(curr_date)
+  const isToday=now_date.toDateString()===today_date.toDateString()
+  const yesterday=new Date(now_date)
+  yesterday.setDate(yesterday.getDate()-1)
+  const isYesterday=yesterday.toDateString()===today_date.toDateString()
+  if(isToday){
+  return "Today"
+  }
+  if(isYesterday){
+  return "Yesterday"
+  }
+  return today_date.toLocaleDateString("en-IN",{
+  weekday:'short',
+  month:'short',
+day:'numeric'
+  })
+  }
   const fetchMessages = async () => {
     try {
       const res = await axios.get(BASE_URL+'/chat/'+toChatId, { withCredentials: true })
@@ -20,6 +53,7 @@ const Chat = () => {
         firstName: msg?.senderId?.firstName,
         lastName: msg?.senderId?.lastName,
         text: msg?.text,
+        createdAt:new Date(),
         time: new Date(msg?.createdAt).toLocaleTimeString('en-IN', {
     hour: '2-digit',
     minute: '2-digit',
@@ -108,47 +142,57 @@ fetchStatus()
       <h1 className="p-5 border-b border-gray-700 text-white text-2xl font-bold">Chat</h1>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
-        {messages.map((msg, index) => {
-          const isOwnMessage = user?.firstName === msg?.firstName
-            const senderStatus = statuses[msg.senderId] || {};
-            console.log(msg)
-          return (
-            <div key={index} className={`chat ${isOwnMessage ? 'chat-end' : 'chat-start'}`}>
-    <div className="chat-image avatar flex items-center gap-[1px]">
-  <div className="w-10 h-10 rounded-full bg-slate-500 flex items-center justify-center text-white font-bold">
-    {msg.firstName[0]}
-  </div>
-  <div
-    className={`w-3 h-3 rounded-full ${
-      senderStatus.online ? 'bg-green-500' : 'bg-yellow-400'
-    }`}
-    title={senderStatus.online ? 'Online' : 'Offline'}
-  ></div>
-</div>
+{Object.entries(groupMsgByDate(messages)).map(([dateKey, dayMessages]) => (
+  <div key={dateKey} className="space-y-4">
+    {/* Group Label */}
+    <div className="text-center text-white text-sm font-semibold mb-4">
+      {formatDateLabel(dateKey)}
+    </div>
 
-{/* Last Seen Info */}
-{!senderStatus.online && senderStatus.lastSeen && (
-  <div className="mt-1 text-xs text-gray-400">
-    Last seen:{" "}
-    {new Date(senderStatus.lastSeen).toLocaleTimeString('en-IN', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Asia/Kolkata',
-      hour12: false
+    {/* Messages for that day */}
+    {dayMessages.map((msg, index) => {
+      const isOwnMessage = user?.firstName === msg?.firstName;
+      const senderStatus = statuses[msg.senderId] || {};
+
+      return (
+        <div key={index} className={`chat ${isOwnMessage ? 'chat-end' : 'chat-start'}`}>
+          <div className="chat-image avatar flex items-center gap-[1px]">
+            <div className="w-10 h-10 rounded-full bg-slate-500 flex items-center justify-center text-white font-bold">
+              {msg.firstName[0]}
+            </div>
+            <div
+              className={`w-3 h-3 rounded-full ${
+                senderStatus.online ? 'bg-green-500' : 'bg-yellow-400'
+              }`}
+              title={senderStatus.online ? 'Online' : 'Offline'}
+            ></div>
+          </div>
+
+          {!senderStatus.online && senderStatus.lastSeen && (
+            <div className="mt-1 text-xs text-gray-400">
+              Last seen:{" "}
+              {new Date(senderStatus.lastSeen).toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'Asia/Kolkata',
+                hour12: false
+              })}
+            </div>
+          )}
+
+          <div className="chat-header text-white">
+            {`${msg.firstName} ${msg.lastName}`}
+            <time className="text-xs opacity-60 ml-2" title={msg.time}>{msg.time}</time>
+          </div>
+          <div className="chat-bubble max-w-[350px] text-left bg-blue-500 text-white px-2 py-2 rounded-lg shadow-md">
+            {msg.text}
+          </div>
+          <div className="chat-footer text-xs opacity-50">Delivered</div>
+        </div>
+      );
     })}
   </div>
-)}
-              <div className="chat-header text-white">
-                {`${msg.firstName} ${msg.lastName}`}
-                <time className="text-xs opacity-60 ml-2" title={msg.time}>{msg.time}</time>
-              </div>
-              <div className="chat-bubble max-w-[350px] text-left bg-blue-500 text-white px-2 py-2 rounded-lg shadow-md">
-                {msg.text}
-              </div>
-              <div className="chat-footer text-xs opacity-50">Delivered</div>
-            </div>
-          )
-        })}
+))}
       </div>
 
       <div className="p-5 border-t border-gray-700 flex items-center gap-3 bg-slate-900">

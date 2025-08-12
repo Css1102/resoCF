@@ -20,6 +20,18 @@ const Feed = () => {
       setLoading(false)
     }
   }
+    const handleSkillMatch=async(curr_id,_id)=>{
+    try{
+    const skill_res=await axios.post(BASE_URL+'/match-skills',{userIds:[curr_id,_id]},{withCredentials:true})
+    console.log(skill_res?.data?.data[0])
+  if(skill_res){
+  return skill_res?.data?.data[0]?.match
+  }
+  }
+    catch(err){
+    console.log(err.response.data)
+    }
+    }
 
   useEffect(() => {
     getFeed()
@@ -38,9 +50,8 @@ const Feed = () => {
   }
 
   return (
-    <div className='bg-slate-800 w-full min-h-screen flex justify-center items-start gap-2 py-12 '>
-      {console.log(feedExist)}
-      <UserCard user={feedExist[0]} />
+    <div className='bg-slate-800 w-full min-h-screen flex justify-center items-start gap-2 py-12 '>    
+      <UserCard user={feedExist[0]} method={handleSkillMatch}/>     
     </div>
   )
 }
