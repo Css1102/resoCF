@@ -16,8 +16,8 @@ const Chat = () => {
   const groupMsgByDate=(messages)=>{
   const groupedMsg={}
   messages.forEach((msg)=>{
-  const date=new Date()
-  console.log(date)  
+  const date=msg.createdAt?new Date(msg.createdAt.split('T')[0]):new Date()
+  console.log(typeof(date))  
   const key=date.toDateString()
   if(!groupedMsg[key]){
   groupedMsg[key]=[]
@@ -53,7 +53,7 @@ day:'numeric'
         firstName: msg?.senderId?.firstName,
         lastName: msg?.senderId?.lastName,
         text: msg?.text,
-        createdAt:new Date(),
+        createdAt:msg?.createdAt,
         time: new Date(msg?.createdAt).toLocaleTimeString('en-IN', {
     hour: '2-digit',
     minute: '2-digit',
@@ -219,88 +219,3 @@ export default Chat
 
 
 
-// import React from 'react'
-// import { useParams } from 'react-router'
-// import { createSocketConnection } from '../utils/socket'
-// import {useEffect,useState} from 'react'
-// import { useSelector } from 'react-redux'
-// import { BASE_URL } from '../utils/constant'
-// import axios from 'axios'
-// const Chat = () => {
-//     const {toChatId}=useParams()
-//     const user=useSelector((state)=>state.user)
-//     const[messages,setMessages]=useState([])
-//     const[newMessage,setNewMessage]=useState("")
-//     const userId=user?._id
-//     const fetchMessages=async()=>{
-//     try{
-//     const incomingMsg=await axios.get(BASE_URL+'/chat/'+toChatId,{withCredentials:true})
-//     console.log(incomingMsg?.data?.data?.messages)
-//     const chatMessages=incomingMsg?.data?.data?.messages.map((msg)=>{
-//     return {
-//     firstName:msg?.senderId?.firstName,
-//     lastName:msg?.senderId?.lastName,
-//     newMessage:msg?.text,
-//     time:msg?.createdAt.split('T')[1].slice(0,5)
-//     }})
-//     setMessages(chatMessages)
-//     }
-//     catch(err){
-//     console.error(err?.response?.data)
-//     }
-//     }
-//     useEffect(()=>{
-//     fetchMessages()
-//     },[])
-//   useEffect(()=>{
-//   const socket=createSocketConnection()
-//   // as soon as the page loads make the connection join the chat
-//   socket.emit("joinChat",{userId,toChatId})
-
-//   return ()=>{
-//   socket.disconnect()
-//   }
-//   },[userId,toChatId])
-
-//   const sendMessage=()=>{
-//   const socket=createSocketConnection()
-//   socket.emit("sendMessage",{firstName:user?.firstName,lastName:user?.lastName,userId,toChatId,newMessage})
-//   setMessages((messages)=>[...messages,{firstName:user?.firstName,lastName:user?.lastName,newMessage}])
-//   setNewMessage("")
-//   }
-//   return (
-//     <div className='w-[55%] h-[100vh] border border-gray-600 my-20 mx-auto flex flex-col'>
-//     <h1 className="p-5 border-b border-gray-600 font-bold text-2xl text-white">Chat</h1>
-//     <div className='flex-1 overflow-scroll p-5'>
-//     {messages?.map((msg,index)=>{
-//       return (
-//         <React.Fragment key={index}>
-//     <div className={`chat ${user?.firstName===msg?.firstName?'chat-end':'chat-start'}`}>
-//   <div className="chat-image avatar">
-//   </div>
-//   <div className="chat-header text-white">
-//   {`${msg.firstName}  ${msg.lastName}`}
-//   {console.log(msg?.createdAt)}
-//     <time className="text-xs opacity-50">{msg?.time}</time>
-//   </div>
-//   <div className="chat-bubble">{msg.newMessage}</div>
-//   <div className="chat-footer opacity-50">Delivered</div>
-// </div>
-// <div className="chat chat-end">
-//   <div className="chat-image avatar">
-//   </div>
-// </div>
-// </React.Fragment>
-//     );
-//     })}
-//     </div>
-//     <div className="p-5 border-gray-600 border-t flex justify-between items-center gap-2">
-//     <input value={newMessage}  className='w-[550px] border border-gray-500 bg-slate-900 text-white rounded-xl p-2' type="text"
-//     onChange={(e)=>setNewMessage(e.target.value)}></input>
-//     <button onClick={sendMessage} className='btn btn-secondary text-white w-[60px] h-[40px]'>Send</button>
-//     </div>
-//     </div>
-//   )
-// }
-
-// export default Chat

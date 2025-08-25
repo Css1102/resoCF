@@ -69,9 +69,9 @@ const Home = () => {
   //       };
   //  },[lastElement,pageNum])
   return (
-  <div className='w-full min-h-screen bg-[url(../assets/images.jpg)] bg-fixed flex flex-col'>
+  <div className='w-[100%] min-h-screen bg-[url(../assets/images.jpg)] bg-fixed flex flex-col'>
     <Navbar/>
-    {showLandingContent && (<div className="bg-gradient-to-b from-gray-900 to-slate-800 min-h-screen text-white flex flex-col items-center justify-evenly px-6 py-32">
+    {showLandingContent && (<div className="w-full m-0 p-0 bg-gradient-to-b from-gray-900 to-slate-800 min-h-screen text-white flex flex-col items-center justify-evenly px-6 py-32">
   <h1 className="text-5xl font-extrabold text-center mb-4">
     Connect. Collaborate. Code.
   </h1>
@@ -157,7 +157,7 @@ const Home = () => {
   </div>
 </div>
 )}
-<div className='w-full min-h-[calc(100vh_-_220px)]  bg-slate-800 pb-[100px] pt-[24px] flex-grow overflow-y-auto'>
+<div className='w-full m-0 p-0 min-h-[calc(100vh_-_220px)]  bg-slate-800 pb-[100px] pt-[24px] flex-grow overflow-y-auto'>
   <Outlet/>
 </div>
       <div>

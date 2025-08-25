@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-purple-900 text-slate-300 px-6">
+    <footer className="bg-purple-900 w-full text-slate-300 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-3">
         {/* Services */}
         <div>

@@ -72,14 +72,19 @@ const saveProfile = async () => {
 return (
   <div className="flex justify-evenly items-start min-h-screen bg-slate-800 px-4 py-12 mt-10">
     {/* Left: Edit Profile Form */}
-    <div className="bg-gray-800 border border-gray-700 w-full max-w-md rounded-xl shadow-xl text-white p-6">
-      {isSaved && error.length === 0 && (
-        <div className="mb-6" ref={toastref}>
-          <div className="bg-green-600 text-white px-4 py-2 rounded text-sm font-semibold text-center">
-            Profile saved successfully.
-          </div>
+    {isSaved && error.length === 0 && (
+      <div
+        ref={toastref}
+        className="absolute top-6 left-[50%] transform -translate-x-1/2 z-50"
+      >
+        <div className="bg-green-600 text-white px-4 py-2 rounded text-sm font-semibold text-center shadow-lg">
+          Profile saved successfully.
         </div>
-      )}
+      </div>
+    )}
+
+
+    <div className="bg-gray-800 border border-gray-700 w-full max-w-md rounded-xl shadow-xl text-white p-6">
 
       <h2 className="text-2xl font-bold text-center mb-6">Edit Profile</h2>
 
