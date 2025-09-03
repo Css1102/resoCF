@@ -9,7 +9,7 @@ const UserCard = ({user,method=()=>{}}) => {
    const dispatch=useDispatch()
    const curr_user=useSelector((state)=>state?.user)
    const [matchlvl,setMatchlvl]=useState("")
-   const curr_id=curr_user._id
+   const curr_id=curr_user?._id
     const{_id,firstName,lastName,photoUrl,age,gender,aboutskills}=user;
     const handleSaveRequest=async(status,_id)=>{
     try{
