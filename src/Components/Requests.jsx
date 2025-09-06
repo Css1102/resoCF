@@ -45,20 +45,20 @@ const {matchLevels,loading}=useDebouncedPairwiseMatch(user?._id,requestsRightNow
     const matchLevel = matchLevels[_id];
         const badgeClass =
       matchLevel === "High"
-        ? "bg-red-600 text-white"
+        ? "bg-red-600 text-white px-3"
         : matchLevel === "Medium"
-        ? "bg-yellow-400 text-black"
-       :"bg-green-600 text-white"
+        ? "bg-yellow-400 text-black px-2"
+       :"bg-green-600 text-white px-3"
 return(
      <div key={_id} className='relative flex justify-between items-center m-4 p-4 rounded-lg bg-slate-700  w-2/3 h-32 mx-auto'>
           {!loading && <div
           data-id={_id}
-          className={`absolute top-0 right-0 w-[60px] h-[30px] px-3 py-2 rounded-sm text-xs font-semibold ${badgeClass}`}
+          className={`absolute top-0 right-0 w-[60px] h-[30px]  py-2 rounded-sm text-xs font-semibold ${badgeClass}`}
         >
           {matchLevel}
         </div>}
           <div>
-          <img src={photoUrl} alt="Shoes" className='w-20 h-20 ml-12 rounded-full'/>
+          <img src={photoUrl} alt="Shoes" className='w-20 h-20 ml-12 rounded-full object-'/>
           </div>
           <div className='text-left mx-4 flex flex-col w-[220px] justify-between items-center'>
           <h2 className="font-bold text-xl text-white relative">{firstName + " " +lastName}</h2>

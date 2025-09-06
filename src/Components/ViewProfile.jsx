@@ -54,14 +54,14 @@ const userDuration = useMemo(() => {
       </div>
 
       <div className="flex items-start">
-        <div className="w-[120px] text-right ml-8 pr-2 font-bold text-white text-lg flex-shrink">Skills:</div>
+        <div className="w-[120px] text-right pr-2 font-bold text-white text-lg flex-shrink">Skills:</div>
         <div className="text-white text-left text-lg font-bold break-words whitespace-pre-wrap">
           {skills.join(', ')}
         </div>
       </div>
 
       <div className="flex items-start">
-        <div className="w-[120px] text-right pr-2 font-bold text-white text-lg shrink-0">Join Date:</div>
+        <div className="w-[120px] text-right pr-1.5 font-bold text-white text-lg shrink-0">Join Date:</div>
         <div className="text-white text-lg font-bold">{createdDate} ({userDuration})</div>
       </div>
     </div>
