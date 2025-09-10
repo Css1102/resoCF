@@ -19,13 +19,109 @@ const Navbar = () => {
       console.error(e);
     }
   };
-CryptoKey
-  return (
-<nav className="bg-purple-900 text-white py-3 px-4 sm:px-6 shadow-md fixed top-0 left-0 w-full z-50">
-  <div className="flex items-center justify-between max-w-7xl mx-auto flex-wrap sm:flex-nowrap">
+//   return (
+// <nav className="bg-purple-900 text-white py-3 px-4 sm:px-6 shadow-md fixed top-0 left-0 w-full z-50">
+//   <div className="flex items-center justify-between max-w-7xl mx-auto flex-wrap sm:flex-nowrap">
     
-    {/* Left Section - Always aligned to start */}
-    <div className="flex relative right-16 items-center gap-2 sm:gap-3 cursor-pointer"
+//     {/* Left Section - Always aligned to start */}
+//     <div className="flex relative right-16 items-center gap-2 sm:gap-3 cursor-pointer"
+//       onClick={() => {
+//         data ? navigate('/feed') : navigate('/');
+//       }}
+//     >
+//       <span className="text-2xl">🧑‍💻</span>
+//       <p className="text-xl font-bold hover:text-cyan-300 transition whitespace-nowrap">
+//         resoCoders
+//       </p>
+//     </div>
+
+//     {/* Right Section - Always visible and aligned to end */}
+//     <div className="flex items-center lg:relative left-10 gap-4 sm:gap-6 flex-wrap sm:flex-nowrap">
+//       {data ? (
+//         <>
+//           <span className="text-sm hidden  md:block whitespace-nowrap">
+//             Welcome, <span className="font-semibold">{data.firstName}</span>
+//           </span>
+//           <div className="relative group">
+//             <img
+//               src={data?.photoUrl}
+//               alt="User avatar"
+//               className="w-10 h-10 rounded-full cursor-pointer border-2 border-cyan-400"
+//             />
+//             <ul className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50 p-2 cursor-pointer">
+//               {/* Dropdown items */}
+//               <li className="mb-2">
+//                 <p
+//                   className="block px-4 py-2 hover:bg-slate-700 rounded-md"
+//                   onClick={() => navigate('/viewprofile', { state: data })}
+//                 >
+//                   My Profile
+//                 </p>
+//               </li>
+//               <li className="mb-2 ml-6">
+//                 <Link
+//                   to="/profile"
+//                   className="block px-6 py-2 hover:bg-slate-700 rounded-md text-nowrap"
+//                 >
+//                   Edit Profile{' '}
+//                   <span className="text-xs bg-cyan-500 ml-2 text-white px-2 py-0.5 rounded-full">
+//                     New
+//                   </span>
+//                 </Link>
+//               </li>
+//               <li className="mb-2">
+//                 <Link
+//                   to="/connection"
+//                   className="block px-4 py-2 hover:bg-slate-700 rounded-md"
+//                 >
+//                   Connections
+//                 </Link>
+//               </li>
+//               <li className="mb-2">
+//                 <Link
+//                   to="/request"
+//                   className="block px-4 py-2 hover:bg-slate-700 rounded-md"
+//                 >
+//                   Requests
+//                 </Link>
+//               </li>
+//               <li>
+//                 <button
+//                   onClick={handleLogout}
+//                   className="w-full px-4 py-2 hover:bg-red-600 rounded-md text-red-300"
+//                 >
+//                   Logout
+//                 </button>
+//               </li>
+//             </ul>
+//           </div>
+//         </>
+//       ) : (
+//         <div className='relative left-8 flext justify-bewtween gap-4 items-center'>
+//           <Link to="/login">
+//             <button className="bg-emerald-500 hover:bg-emerald-600 text-white mr-4 px-4 py-2 rounded-lg transition whitespace-nowrap">
+//               Login
+//             </button>
+//           </Link>
+//           <Link to="/signup">
+//             <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg transition whitespace-nowrap">
+//               Signup
+//             </button>
+//           </Link>
+//         </div>
+//       )}
+//     </div>
+//   </div>
+// </nav>
+
+//   )
+return (
+<nav className="bg-purple-900 text-white py-3 px-4 sm:px-6 shadow-md fixed top-0 left-0 w-full z-50">
+  <div className="flex items-center justify-between ml-0 max-w-7xl  w-full">
+    
+    {/* Left Section - Logo */}
+    <div
+      className="flex items-center gap-2 sm:gap-3 cursor-pointer"
       onClick={() => {
         data ? navigate('/feed') : navigate('/');
       }}
@@ -36,11 +132,11 @@ CryptoKey
       </p>
     </div>
 
-    {/* Right Section - Always visible and aligned to end */}
-    <div className="flex items-center lg:relative left-10 gap-4 sm:gap-6 flex-wrap sm:flex-nowrap">
+    {/* Right Section - Buttons or Avatar */}
+    <div className="flex items-center gap-4 md:relative left-32 sm:gap-6">
       {data ? (
         <>
-          <span className="text-sm hidden  md:block whitespace-nowrap">
+          <span className="text-sm hidden md:block whitespace-nowrap">
             Welcome, <span className="font-semibold">{data.firstName}</span>
           </span>
           <div className="relative group">
@@ -50,7 +146,6 @@ CryptoKey
               className="w-10 h-10 rounded-full cursor-pointer border-2 border-cyan-400"
             />
             <ul className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50 p-2 cursor-pointer">
-              {/* Dropdown items */}
               <li className="mb-2">
                 <p
                   className="block px-4 py-2 hover:bg-slate-700 rounded-md"
@@ -98,9 +193,9 @@ CryptoKey
           </div>
         </>
       ) : (
-        <div className='relative left-8 flext justify-bewtween gap-4 items-center'>
+        <div className="flex gap-4 items-center">
           <Link to="/login">
-            <button className="bg-emerald-500 hover:bg-emerald-600 text-white mr-4 px-4 py-2 rounded-lg transition whitespace-nowrap">
+            <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition whitespace-nowrap">
               Login
             </button>
           </Link>
@@ -114,8 +209,8 @@ CryptoKey
     </div>
   </div>
 </nav>
+);
 
-  )
 }
 export default Navbar;
 

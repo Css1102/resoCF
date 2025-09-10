@@ -22,7 +22,7 @@ const Feed = () => {
   }
     const handleSkillMatch=async(curr_id,_id)=>{
     try{
-    const skill_res=await axios.post(BASE_URL+'/match-skills',{userIds:[curr_id,_id]},{withCredentials:true})
+    const skill_res=await axios.post(BASE_URL + '/match-skills',{userIds:[curr_id,_id]},{withCredentials:true})
     console.log(skill_res?.data?.data[0])
   if(skill_res){
   return skill_res?.data?.data[0]?.match
