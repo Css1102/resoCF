@@ -21,7 +21,7 @@ const Login = () => {
   email,
   password,
   },{withCredentials:true})
-  localStorage.setItem("token",res.data?.token)
+  // localStorage.setItem("token",res.data?.token)
   dispatch(addUser(res.data?.user))
   return navigate('/feed')
   }
